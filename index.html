@@ -569,14 +569,17 @@
       flex-direction: column;
       box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
     }
-    .main.tushaal-expanded {
+    .main.tushaal-expanded,
+    .main.full-page-expanded {
       padding: 0;
       overflow: hidden;
     }
-    .main.tushaal-expanded .dashboard {
+    .main.tushaal-expanded .dashboard,
+    .main.full-page-expanded .dashboard {
       height: calc(100dvh - var(--topbar-height));
     }
-    .main.tushaal-expanded .content-frame-wrap {
+    .main.tushaal-expanded .content-frame-wrap,
+    .main.full-page-expanded .content-frame-wrap {
       height: calc(100dvh - var(--topbar-height));
       min-height: calc(100dvh - var(--topbar-height));
       border-radius: 0;
@@ -584,7 +587,8 @@
       border-right: 0;
       box-shadow: none;
     }
-    .main.tushaal-expanded #content-frame {
+    .main.tushaal-expanded #content-frame,
+    .main.full-page-expanded #content-frame {
       min-height: calc(100dvh - var(--topbar-height) - 54px);
     }
     .frame-titlebar {
@@ -963,6 +967,18 @@
 
       <div class="sidebar-divider"></div>
 
+<div class="sidebar-item">
+        <a href="#" class="sidebar-link danger-link" id="toggle-alert" data-page-key="Ажлын бүртгэл">
+          <i class="fa fa-sitemap"></i> Ажлын бүртгэл
+        </a>
+      </div>
+
+      <div class="sidebar-item">
+        <a href="#" class="sidebar-link danger-link" id="toggle-alert" data-page-key="Хурлын тэмдэглэл">
+          <i class="fa fa-sitemap"></i> Хурлын тэмдэглэл
+        </a>
+      </div>
+
       <div class="sidebar-item">
         <a href="#" class="sidebar-link danger-link" id="toggle-alert" data-page-key="Менежментийн нэгдсэн тогтолцоо">
           <i class="fa fa-sitemap"></i> Менежментийн нэгдсэн тогтолцоо
@@ -1229,6 +1245,8 @@
 
   const staticPageFallbacks = {
       'Ирц бүртгэл': 'irts.html',
+    'Ажлын бүртгэл': 'ajliinBvrtgel.html',
+    'Хурлын тэмдэглэл': 'hural.html',
     'Өдөр тутмын зааварчилгаа': 'zoovorchilgoo.html',
     'Зааварчилгаа / Зам засвар': 'zoovorchilgoo.html',
     'Цахилгаан': 'tsahilgaan.html',
@@ -1449,7 +1467,7 @@
       'img, svg { max-width: 100%; height: auto; }',
       'iframe { max-width: 100%; }',
       'input, textarea, select { max-width: 100%; }',
-      '.container, .wrapper, .dashboard, .main-content { width: 100% !important; max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; }',
+      '.container, .wrapper, .dashboard, .main-content, .wrap { width: 100% !important; max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; }',
       '.table-container, .table-wrapper, [class*="table-container"], [class*="table-wrapper"] { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }',
       '@media (max-width: 768px) {',
       '  body { min-width: 0 !important; }',
@@ -1647,9 +1665,11 @@
     const main = document.querySelector('.main');
     const titleText = clickedElement.textContent.trim().replace(/\s+/g, ' ');
     const isTushaalPage = pageKey === 'Тушаал, стандарт' || pageKey === 'уулзварын зайн судалгаа';
+    const isFullPage = isTushaalPage || pageKey === 'Ажлын бүртгэл' || pageKey === 'Хурлын тэмдэглэл';
 
     if (main) {
       main.classList.toggle('tushaal-expanded', isTushaalPage);
+      main.classList.toggle('full-page-expanded', isFullPage);
     }
 
     frame.src = resolvePageSrc(pageKey, titleText);
